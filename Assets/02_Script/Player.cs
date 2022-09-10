@@ -12,8 +12,6 @@ public class Player : MonoBehaviour
     Vector3 moveVec;
 
     Animator ani;
-    public GameObject cam;
-
 
     // Start is called before the first frame update
     private void Awake()
@@ -25,7 +23,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
-        CameraRotation(cam);
     }
 
     private void Move()
@@ -35,19 +32,11 @@ public class Player : MonoBehaviour
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         transform.position += moveVec * Time.deltaTime * speed;
+        transform.LookAt(transform.position + moveVec);
         ani.SetBool("isMove", moveVec != Vector3.zero);
 
-        transform.LookAt(transform.position + moveVec);
+    }
 
-    }
-    void CameraRotation(GameObject cam)
-    {
-        float camspeed = 30f;
-        rotX = Input.GetAxis("Mouse X")*camspeed;
-        rotY = Input.GetAxis("Mouse Y")*camspeed;
-        transform.Rotate(0, rotX * Time.deltaTime, 0);
-        cam.transform.Rotate(-rotY * Time.deltaTime, 0, 0);
-    }
 
 
 
